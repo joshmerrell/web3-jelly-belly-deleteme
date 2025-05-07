@@ -1,0 +1,23 @@
+---
+
+import { type Flavor } from "../env";
+const flavor = Astro.props.flavor as Flavor;
+
+function featuredClass() {
+	const randChance = 0.2; // 20% chance
+	return (Math.random() < randChance)?"featured": "";
+}
+
+---
+
+<li class={featuredClass()} style={`border: 8px solid ${flavor.backgroundColor}`}>
+    <p>
+        <figure class="card">
+        <img src={flavor.imageUrl} alt="Placeholder">
+        <figcaption class="caption">
+            <h3 class="caption-title">{flavor.flavorName}</h3>
+            <p>{flavor.description}</p>
+        </figcaption>
+        </figure>
+    </p>
+</li> 

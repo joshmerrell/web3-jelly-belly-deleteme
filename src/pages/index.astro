@@ -1,59 +1,40 @@
 ---
+// import the layout and components
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Card from '../components/Card.astro';
 // Import Stylesheet
 import '../styles/global.css';
 
 // data source
 // replace temporary JSON placeholder API
-const source = 'https://jsonplaceholder.typicode.com/users';
+const source = 'https://assets.codepen.io/16425/jelly-belly-beans.json';
 // fetch the data
 const res = await fetch(source); 
 // store retreived data
-const data = await res.json();
+
+import { Flavor } from "../env";
+
+const flavors = await res.json();
+
+
+const title = "Jelly Belly Flavors";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+<BaseLayout title={title}>
+<Header title={title} />
 
-		<!-- Normalize CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<section id="content" class="wrapper">
+	<ul class="grid">
+		{
+			flavors.map((flavor:Flavor) =>
+				<Card flavor={flavor} />
+			)
+		}
+  
+	</ul>
+  </section>
 
-		<title>Retreive and and display external API data with Astro</title>
-	</head>
-	<body>
-		
-		<header class="masthead">
-			<h1 class="site-title">Gallery</h1>
-		</header>
-
-		<main id="content" class="main-area">
-
-			<ul class="cards">
-		  
-				<!-- Your API Data -->
-				{
-					data.map( item =>
-					<li class="card-item">
-						<a href="#">
-							<figure class="card">
-							<img src="https://assets.codepen.io/16425/image-placeholder.png" alt="Placeholder">
-							<figcaption class="caption">
-								<h3 class="caption-title">{item.name}</h3>
-								<p>{item.company.catchPhrase}</p>
-							</figcaption>
-							</figure>
-						</a>
-					</li> 
-					)
-				}
-		  
-			</ul>
-		  </main>
-		  
-
-
-	</body>
-</html>
+  <Footer />
+</BaseLayout>
