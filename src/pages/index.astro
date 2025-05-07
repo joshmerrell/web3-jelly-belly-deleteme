@@ -1,40 +1,36 @@
 ---
 // import the layout and components
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Card from '../components/Card.astro';
-// Import Stylesheet
-import '../styles/global.css';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
 
-// data source
-// replace temporary JSON placeholder API
-const source = 'https://assets.codepen.io/16425/jelly-belly-beans.json';
-// fetch the data
-const res = await fetch(source); 
-// store retreived data
+// Import Stylesheet
+import "../styles/global.css";
 
 import { Flavor } from "../env";
 
-const flavors = await res.json();
+// data source
+const source = "https://assets.codepen.io/16425/jelly-belly-beans.json";
 
+// fetch the data
+const res = await fetch(source);
+// store retreived data
+const flavors:Flavor[] = await res.json();
+
+const favicon = flavors[Math.floor(Math.random() * flavors.length)].imageUrl;
 
 const title = "Jelly Belly Flavors";
 ---
 
-<BaseLayout title={title}>
-<Header title={title} />
+<BaseLayout title={title} favicon={favicon}>
+	<Header title={title} />
 
-<section id="content" class="wrapper">
-	<ul class="grid">
-		{
-			flavors.map((flavor:Flavor) =>
-				<Card flavor={flavor} />
-			)
-		}
-  
-	</ul>
-  </section>
+	<section id="content" class="wrapper">
+		<ul class="grid">
+			{flavors.map((flavor: Flavor) => <Card flavor={flavor} />)}
+		</ul>
+	</section>
 
-  <Footer />
+	<Footer />
 </BaseLayout>
